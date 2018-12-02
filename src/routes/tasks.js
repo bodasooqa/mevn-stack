@@ -4,12 +4,11 @@ const router = express.Router();
 const Task = require('../models/Task');
 
 router.get('/', async (req, res) => {
-    const tasks = await Task.find();
-    res.json(tasks);
+    res.json(await Task.find());
 });
 
 router.post('/', async (req, res) => {
-    var task = new Task(req.body);
+    const task = new Task(req.body);
     task.isComplete = false;
     await task.save();
     res.json({state: 'success'});
