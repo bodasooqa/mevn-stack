@@ -1,10 +1,11 @@
 const {VueLoaderPlugin} = require('vue-loader');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-    entry: './src/app/index.js',
+    entry: ['babel-polyfill', './src/app/index.js'],
     output: {
         path: `${__dirname}/src/public/js`,
-        filename: 'bundle.js'
+        filename: 'bundle.min.js'
     },
     module: {
         rules: [
@@ -29,5 +30,11 @@ module.exports = {
     },
     plugins: [
         new VueLoaderPlugin()
-    ]
+    ],
+    optimization: {
+        minimize: true,
+        minimizer: [new UglifyJsPlugin({
+            include: /\.min\.js$/
+        })]
+    }
 };
