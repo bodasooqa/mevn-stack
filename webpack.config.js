@@ -2,7 +2,7 @@ const {VueLoaderPlugin} = require('vue-loader');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-    entry: ['babel-polyfill', './src/app/index.js'],
+    entry: ['./src/app/index.js'],
     output: {
         path: `${__dirname}/src/public/js`,
         filename: 'bundle.min.js'

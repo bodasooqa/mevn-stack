@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon",
+    "dev": "nodemon --ignore sessions/",
     "webpack": "webpack --mode development --watch"
   },
   "keywords": [],
@@ -13,14 +13,17 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "express-session": "^1.15.6",
     "mongoose": "^5.3.14",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "session-file-store": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
     "@babel/preset-env": "^7.1.6",
     "babel-loader": "^8.0.4",
-    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^2.0.0-beta.1",
     "css-loader": "^1.0.1",
     "node-sass": "^4.10.0",
