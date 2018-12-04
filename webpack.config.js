@@ -2,10 +2,15 @@ const {VueLoaderPlugin} = require('vue-loader');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-    entry: ['./src/app/index.js'],
+    entry: {
+        './src/home/js/bundle': `${__dirname}/src/home-app/index.js`,
+        './src/home/js/bundle.min': `${__dirname}/src/home-app/index.js`,
+        './src/admin/js/bundle': `${__dirname}/src/admin-app/index.js`,
+        './src/admin/js/bundle.min': `${__dirname}/src/admin-app/index.js`,
+    },
     output: {
-        path: `${__dirname}/src/public/js`,
-        filename: 'bundle.min.js'
+        path: `${__dirname}`,
+        filename: '[name].js'
     },
     module: {
         rules: [
