@@ -1,51 +1,25 @@
 <template>
     <div>
-        <nav class="navbar navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">MEVN App</a>
-        </nav>
+        <Header></Header>
+
         <div class="container">
             <div class="row mt-3">
-                <div class="col-md-8 offset-md-2">
-                    <div class="card">
-                        <div class="card-body">
-                            <form @submit.prevent="addTask">
-                                <div class="form-group">
-                                    <input v-model="task.title"
-                                           placeholder="Insert title" type="text" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <textarea v-model="task.description"
-                                              placeholder="Insert description" class="form-control"></textarea>
-                                </div>
-                                <button class="btn btn-primary">Add</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div v-for="task in tasks" class="col-md-8 offset-md-2 mt-3">
-                    <div class="card">
-                        <div class="card-body d-flex justify-content-between">
-                            <div class="info">
-                                <h5 class="card-title"
-                                    :class="{ 'text-muted': task.isComplete }">{{ task.title }}</h5>
-                                <p class="card-text"
-                                   :class="{ 'text-muted': task.isComplete }">{{ task.description }}</p>
-                            </div>
-                            <div class="buttons">
-                                <button class="btn btn-warning" v-if="task.isComplete"
-                                        @click="changeState(task)">Open</button>
-                                <button class="btn btn-success" v-else @click="changeState(task)">Close</button>
-                                <button class="btn btn-danger" @click="deleteTask(task._id)">Delete</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+                <TaskForm @add-task="addTask" :task="task"></TaskForm>
+
+                <TaskList v-for="task in tasks" :task="task" :key="task._id"
+                @change-task="changeState(task)" @delete-task="deleteTask(task._id)"></TaskList>
+
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import Header from "./Header.vue";
+    import TaskForm from "./TaskForm.vue";
+    import TaskList from "./TaskList.vue";
+
     class Task {
         constructor(title, description) {
             this.title = title;
@@ -56,6 +30,7 @@
 
     export default {
         name: "App",
+        components: {Header, TaskForm, TaskList},
         data: function () {
             return {
                 task: {
