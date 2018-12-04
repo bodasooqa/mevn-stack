@@ -30,17 +30,18 @@ app.use(session({
     saveUninitialized: false
 }));
 
-require('./config/config.passport');
+require('./server/config/config.passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(morgan('dev'));
 
 // Routes
-app.use('/api/tasks', require('./routes/tasks'));
-app.use('/api/user', require('./routes/user'));
+app.use('/api/tasks', require('./server/routes/tasks'));
+app.use('/api/user', require('./server/routes/user'));
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', express.static(path.join(__dirname, 'home')));
+app.use('/login', express.static(path.join(__dirname, 'admin')));
 
 app.get('/', (req, res) => {
     res.end('Express');
