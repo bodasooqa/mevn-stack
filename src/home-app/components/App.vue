@@ -16,6 +16,8 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
     import Header from "./Header.vue";
     import TaskForm from "./TaskForm.vue";
     import TaskList from "./TaskList.vue";
@@ -45,48 +47,42 @@
         },
         methods: {
             addTask() {
-                fetch('/api/tasks', {
-                    method: 'POST',
-                    body: JSON.stringify(this.task),
+                axios.post('/api/tasks', {
+                    title: this.task.title,
+                    description: this.task.description,
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     }
-                }).then(res => res.json())
-                    .catch(err => console.error(err));
+                }).catch(err => console.error(err));
                 this.task = new Task();
                 this.getTasks();
             },
             getTasks() {
-                fetch('/api/tasks')
-                    .then(res => res.json())
-                    .then(data => {
-                        this.tasks = data;
+                axios.get('/api/tasks')
+                    .then(res => {
+                        this.tasks = res.data;
                     })
                     .catch(err => console.error(err));
             },
             deleteTask(id) {
-                fetch(`/api/tasks/${id}/`, {
-                    method: 'DELETE',
+                axios.delete(`/api/tasks/${id}/`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     }
-                }).then(res => res.json())
-                    .catch(err => console.error(err));
+                }).catch(err => console.error(err));
                 this.getTasks();
             },
             changeState(task) {
-                const state = {isComplete: !task.isComplete};
-                fetch(`/api/tasks/${task._id}/`, {
-                    method: 'PUT',
-                    body: JSON.stringify(state),
+                const state = !task.isComplete;
+                axios.put(`/api/tasks/${task._id}/`, {
+                    isComplete: state,
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     }
-                }).then(res => res.json())
-                    .catch(err => console.error(err));
+                }).catch(err => console.error(err));
                 this.getTasks();
             }
         }
