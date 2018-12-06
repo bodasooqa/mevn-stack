@@ -5,6 +5,10 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const path = require('path');
 const morgan = require('morgan');
+const jwt = require('jsonwebtoken');
+const User = require('./server/models/User');
+
+authController = require('./server/controllers/auth.controller');
 
 require('dotenv').config();
 
@@ -32,9 +36,9 @@ app.use(session({
     saveUninitialized: false
 }));
 
-require('./server/config/config.passport');
-app.use(passport.initialize());
-app.use(passport.session());
+// require('./server/config/config.passport');
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 app.use(morgan('dev'));
 
@@ -48,31 +52,45 @@ app.use('/login', express.static(path.join(__dirname, 'admin')));
 app.get('/', (req, res) => {
     res.end('Express');
 });
+
 app.post('/login', (req, res, next) => {
-    passport.authenticate('local', function(err, user) {
-        if (err) return next(err);
-        if (!user) return res.send('Incorrect password or email');
-        req.logIn(user, function(err) {
-            if (err) return next(err);
-            return res.redirect('/admin');
-        });
-    })(req, res, next);
+    const user = req.body;
+
+    User.findOne({ username: user.username, password: user.password }, function (err, user) {
+        console.log(user);
+    });
+
+    jwt.sign({user: user}, 'bodasooqa', (err, token) => {
+        res.json({token: token});
+    });
 });
+
 app.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
 });
 
-const auth = (req, res, next) => {
-    if (req.isAuthenticated()) {
+const verifyToken = (req, res, next) => {
+    const bearerHeader = req.headers['authorization'];
+
+    if (typeof bearerHeader !== 'undefined') {
+        const bearer = bearerHeader.split(' ');
+        const bearerToken = bearer[1];
+        req.token = bearerToken;
         next();
     } else {
-        return res.redirect('/');
+        res.sendStatus(403);
     }
 };
 
-app.get('/admin', auth, (req, res) => {
-    res.send('Admin')
+app.get('/admin', verifyToken, (req, res) => {
+    jwt.verify(req.token, 'bodasooqa', (err, authData) => {
+        if (err) {
+            res.sendStatus(403);
+        } else {
+            res.json({message: 'Admin', authData});
+        }
+    });
 });
 
 app.listen(app.get('port'), () => {
