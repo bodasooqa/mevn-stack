@@ -9,9 +9,9 @@
                             <h5 class="card-title">Log In</h5>
                             <form @submit.prevent="logIn">
                                 <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Enter email"
-                                    v-model="email">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" id="username" placeholder="Enter username"
+                                    v-model="username">
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
@@ -30,12 +30,16 @@
 </template>
 
 <script>
+    import AuthenticationService from '../service/auth';
+    const authService = new AuthenticationService;
+
     export default {
         name: "App",
         data: function () {
             return {
-                email: '',
-                password: ''
+                username: '',
+                password: '',
+                error: null
             }
         },
         created() {
@@ -43,6 +47,14 @@
         },
         methods: {
             logIn() {
+                try {
+                    authService.login({
+                        username: this.username,
+                        password: this.password
+                    })
+                } catch (err) {
+                    this.error = err.response.data.error;
+                }
 
             }
         }
