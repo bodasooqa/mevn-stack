@@ -93,4 +93,19 @@
     body {
         background: #f3f5f9;
     }
+    .card {
+        -webkit-box-shadow: 0 0 6px 0 #b1b5bd;
+        -moz-box-shadow: 0 0 6px 0 #b1b5bd;
+        box-shadow: 0 0 6px 0 #b1b5bd;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -ms-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition: all 0.3s;
+        &:hover {
+            -webkit-box-shadow: 0 0 12px 1px #b1b5bd;
+            -moz-box-shadow: 0 0 12px 1px #b1b5bd;
+            box-shadow: 0 0 12px 1px #b1b5bd;
+        }
+    }
 </style>

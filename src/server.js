@@ -43,7 +43,8 @@ app.use('/api/tasks', require('./server/routes/tasks'));
 app.use('/api/user', require('./server/routes/user'));
 
 app.use('/', express.static(path.join(__dirname, 'home')));
-app.use('/login', express.static(path.join(__dirname, 'admin')));
+app.use('/login', express.static(path.join(__dirname, 'login')));
+app.use('/admin', express.static(path.join(__dirname, 'admin')));
 
 app.get('/', (req, res) => {
     res.end('Express');
@@ -54,7 +55,7 @@ app.post('/login', (req, res, next) => {
         if (!user) return res.send('Incorrect password or email');
         req.logIn(user, function(err) {
             if (err) return next(err);
-            return res.redirect('/admin');
+            return res.redirect(303, '/admin');
         });
     })(req, res, next);
 });
@@ -67,7 +68,7 @@ const auth = (req, res, next) => {
     if (req.isAuthenticated()) {
         next();
     } else {
-        return res.redirect('/');
+        return res.redirect('/login');
     }
 };
 

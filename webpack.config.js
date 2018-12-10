@@ -5,6 +5,8 @@ module.exports = {
     entry: {
         './src/home/js/bundle': `${__dirname}/src/home-app/index.js`,
         './src/home/js/bundle.min': `${__dirname}/src/home-app/index.js`,
+        './src/login/js/bundle': `${__dirname}/src/login-app/index.js`,
+        './src/login/js/bundle.min': `${__dirname}/src/login-app/index.js`,
         './src/admin/js/bundle': `${__dirname}/src/admin-app/index.js`,
         './src/admin/js/bundle.min': `${__dirname}/src/admin-app/index.js`,
     },
