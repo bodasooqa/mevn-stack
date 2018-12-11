@@ -26,6 +26,16 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    h5, p {
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -ms-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition: all 0.3s;
+    }
+    .text-muted {
+        color: #b8c2cc!important;
+        text-decoration: line-through;
+    }
 </style>

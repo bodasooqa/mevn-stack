@@ -11,7 +11,7 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="#">Profile</a>
                             <a class="dropdown-item" href="#">Edit password</a>
-                            <a class="dropdown-item" href="#">Exit</a>
+                            <a class="dropdown-item" href="/logout">Exit</a>
                         </div>
                     </li>
                 </ul>
@@ -23,45 +23,36 @@
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">Tasks</a>
+                                <a href="#" class="nav-link"><fa-icon icon="tasks"></fa-icon> Tasks</a>
                             </li>
                         </ul>
                     </div>
                 </nav>
                 <main role="main" class="col-md-10 ml-sm-auto col-lg-10">
-                    <div class="container mt-3">
+                    <div class="mt-3">
                         <div class="card">
                             <div class="card-header text-white bg-dark">
                                 Tasks
                             </div>
                             <div class="card-body">
+                                <button class="btn btn-success mb-4">Add task</button>
                                 <table class="table">
-                                    <thead>
+                                    <thead class="thead-dark">
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">First</th>
-                                        <th scope="col">Last</th>
-                                        <th scope="col">Handle</th>
+                                        <th scope="col">_id</th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Complete</th>
+                                        <th scope="col">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
+                                    <tr v-for="(task, i) in tasks">
+                                        <th scope="row">{{i + 1}}</th>
+                                        <td>{{task._id}}</td>
+                                        <td>{{task.title}}</td>
+                                        <td><input v-model="task.isComplete" @input="changeState(task)" type="checkbox"></td>
+                                        <td><button @click="deleteTask(task._id)" class="btn btn-danger"><fa-icon icon="trash-alt"></fa-icon></button></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -94,6 +85,26 @@
                         this.tasks = res.data;
                     })
                     .catch(err => console.error(err));
+            },
+            deleteTask(id) {
+                axios.delete(`/api/tasks/${id}/`, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }).catch(err => console.error(err));
+                this.getTasks();
+            },
+            changeState(task) {
+                const state = !task.isComplete;
+                axios.put(`/api/tasks/${task._id}/`, {
+                    isComplete: state,
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }).catch(err => console.error(err));
+                this.getTasks();
             }
         }
     }
@@ -124,7 +135,6 @@
             overflow-y: auto;
             .nav-link {
                 color: #444444;
-                font-size: 14px;
                 font-weight: 500;
                 &:hover {
                     color: #000000;

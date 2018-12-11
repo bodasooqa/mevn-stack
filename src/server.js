@@ -44,12 +44,12 @@ app.use('/api/user', require('./server/routes/user'));
 
 app.use('/', express.static(path.join(__dirname, 'home')));
 app.use('/login', express.static(path.join(__dirname, 'login')));
-app.use('/admin', express.static(path.join(__dirname, 'admin')));
 
 app.get('/', (req, res) => {
-    res.end('Express');
+    res.send('admin');
 });
-app.post('/login', (req, res, next) => {
+
+app.use('/login', (req, res, next) => {
     passport.authenticate('local', function(err, user) {
         if (err) return next(err);
         if (!user) return res.send('Incorrect password or email');
@@ -59,9 +59,10 @@ app.post('/login', (req, res, next) => {
         });
     })(req, res, next);
 });
+
 app.get('/logout', (req, res) => {
     req.logout();
-    res.redirect('/');
+    res.redirect('/login');
 });
 
 const auth = (req, res, next) => {
@@ -72,9 +73,7 @@ const auth = (req, res, next) => {
     }
 };
 
-app.get('/admin', auth, (req, res) => {
-    res.send('Admin')
-});
+app.use('/admin', [auth, express.static(path.join(__dirname, 'admin'))]);
 
 app.listen(app.get('port'), () => {
     console.log(`[OK] Server is running on localhost:${app.get('port')}`);
