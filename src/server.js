@@ -38,13 +38,13 @@ app.use(passport.session());
 
 app.use(morgan('dev'));
 
-// Routes
 app.use('/api/tasks', require('./server/routes/tasks'));
 app.use('/api/user', require('./server/routes/user'));
 
 app.use('/', express.static(path.join(__dirname, 'home')));
 app.use('/login', express.static(path.join(__dirname, 'login')));
 
+// Routes
 app.get('/', (req, res) => {
     res.send('admin');
 });

@@ -51,6 +51,8 @@
 </script>
 
 <style lang="scss">
+    @import '~bootstrap-vue/dist/bootstrap-vue.css';
+
     body {
         background: #f3f5f9;
     }

@@ -47,16 +47,18 @@
         },
         methods: {
             addTask() {
-                axios.post('/api/tasks', {
-                    title: this.task.title,
-                    description: this.task.description,
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                }).catch(err => console.error(err));
-                this.task = new Task();
-                this.getTasks();
+                if (task.title && task.description) {
+                    axios.post('/api/tasks', {
+                        title: this.task.title,
+                        description: this.task.description,
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    }).catch(err => console.error(err));
+                    this.task = new Task();
+                    this.getTasks();
+                }
             },
             getTasks() {
                 axios.get('/api/tasks')

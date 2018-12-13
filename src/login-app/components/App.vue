@@ -52,7 +52,6 @@
                         username: this.username,
                         password: this.password
                     });
-                    window.location = '/admin';
                 } catch (err) {
                     this.error = err.response.data.error;
                 }
