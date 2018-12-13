@@ -32,17 +32,17 @@ app.use(session({
     saveUninitialized: false
 }));
 
-require('./server/config/config.passport');
+require('./config/config.passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(morgan('dev'));
 
-app.use('/api/tasks', require('./server/routes/tasks'));
-app.use('/api/user', require('./server/routes/user'));
+app.use('/api/tasks', require('./routes/tasks'));
+app.use('/api/user', require('./routes/user'));
 
-app.use('/', express.static(path.join(__dirname, 'home')));
-app.use('/login', express.static(path.join(__dirname, 'login')));
+app.use('/', express.static(path.join(__dirname, '../../dist/home')));
+app.use('/login', express.static(path.join(__dirname, '../../dist/login')));
 
 // Routes
 app.get('/', (req, res) => {
@@ -73,7 +73,7 @@ const auth = (req, res, next) => {
     }
 };
 
-app.use('/admin', [auth, express.static(path.join(__dirname, 'admin'))]);
+app.use('/admin', [auth, express.static(path.join(__dirname, '../../dist/admin'))]);
 
 app.listen(app.get('port'), () => {
     console.log(`[OK] Server is running on localhost:${app.get('port')}`);

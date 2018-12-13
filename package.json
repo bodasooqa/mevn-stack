@@ -1,14 +1,16 @@
 {
-  "name": "node",
+  "name": "mevn-stack",
   "version": "1.0.0",
   "description": "",
-  "main": "src/server.js",
+  "main": "src/server/server.js",
   "scripts": {
-    "dev": "nodemon --ignore sessions/",
-    "webpack": "webpack --mode development --watch"
+    "dev": "concurrently \"nodemon --ignore sessions/\" \"webpack --mode development --watch\"",
+    "webpack": "webpack --mode development --watch",
+    "build": "webpack --mode development",
+    "server": "nodemon --ignore sessions/"
   },
   "keywords": [],
-  "author": "",
+  "author": "bodasooqa",
   "license": "ISC",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.9",
@@ -32,7 +34,9 @@
     "@babel/preset-env": "^7.1.6",
     "babel-loader": "^8.0.4",
     "babel-preset-env": "^2.0.0-beta.1",
+    "concurrently": "^4.1.0",
     "css-loader": "^1.0.1",
+    "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.10.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",

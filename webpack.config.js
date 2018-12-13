@@ -1,17 +1,18 @@
 const {VueLoaderPlugin} = require('vue-loader');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        './src/home/js/bundle': `${__dirname}/src/home-app/index.js`,
-        './src/home/js/bundle.min': `${__dirname}/src/home-app/index.js`,
-        './src/login/js/bundle': `${__dirname}/src/login-app/index.js`,
-        './src/login/js/bundle.min': `${__dirname}/src/login-app/index.js`,
-        './src/admin/js/bundle': `${__dirname}/src/admin-app/index.js`,
-        './src/admin/js/bundle.min': `${__dirname}/src/admin-app/index.js`,
+        './home/js/bundle': `${__dirname}/src/home-app/index.js`,
+        './home/js/bundle.min': `${__dirname}/src/home-app/index.js`,
+        './login/js/bundle': `${__dirname}/src/login-app/index.js`,
+        './login/js/bundle.min': `${__dirname}/src/login-app/index.js`,
+        './admin/js/bundle': `${__dirname}/src/admin-app/index.js`,
+        './admin/js/bundle.min': `${__dirname}/src/admin-app/index.js`,
     },
     output: {
-        path: `${__dirname}`,
+        path: `${__dirname}/dist`,
         filename: '[name].js'
     },
     module: {
@@ -43,7 +44,25 @@ module.exports = {
         ]
     },
     plugins: [
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        new HtmlWebpackPlugin({
+            title: 'Admin',
+            template: './src/index.html',
+            filename: './admin/index.html',
+            inject: false
+        }),
+        new HtmlWebpackPlugin({
+            title: 'Login',
+            template: './src/index.html',
+            filename: './login/index.html',
+            inject: false
+        }),
+        new HtmlWebpackPlugin({
+            title: 'MEVN Stack',
+            template: './src/index.html',
+            filename: './home/index.html',
+            inject: false
+        })
     ],
     optimization: {
         minimize: true,

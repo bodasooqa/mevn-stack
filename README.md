@@ -8,4 +8,4 @@
 
 2. Dev-сервер - `npm run dev`
 
-3. Webpack = `npm run webpack`
+3. Webpack - `npm run webpack`
